@@ -6,6 +6,9 @@ class Vehicle(models.Model):
     type = models.CharField(max_length = 10)
     number_in_stock = models.PositiveIntegerField()
 
+    def __str__(self):
+        return f'Vehicle Type: {self.type}'
+
 class Customer(models.Model):
     name = models.CharField(max_length = 100)
 
@@ -17,3 +20,6 @@ class CustomerOrder(models.Model):
     order = models.ManyToManyField(Vehicle)
     created_date = models.DateField()
     paid = models.BooleanField()
+
+    def __str__(self):
+        return f'{self.customer}, {self.order.first()}, {self.created_date}, Paid: {self.paid}'

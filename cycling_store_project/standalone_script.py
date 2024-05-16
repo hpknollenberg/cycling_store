@@ -82,10 +82,7 @@ def delete_vehicle(): # This function allows the user to delete a vehicle.
 
 def create_customer_order(): # This function grabs inputs of vehicle, date, and customer name in order to create an order. It also subtracts from the corresponding vehicle's stock.
 
-    vehicle = Vehicle.objects.get(type=input("Vehicle Type: "))
-    
-    if (vehicle.number_in_stock > 0):
-        customer_order = CustomerOrder(created_date=input("Order Date (YYYY-MM-DD): "), paid=False)
+    customer_order = CustomerOrder(created_date=input("Order Date (YYYY-MM-DD): "), paid=False)
     try:
         customer_name = input("Customer Name: ")
         customer_order.customer = Customer.objects.get(name=customer_name)

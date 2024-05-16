@@ -5,6 +5,8 @@ from django.db import models
 class Vehicle(models.Model):
     type = models.CharField(max_length = 10)
     number_in_stock = models.PositiveIntegerField()
+    price = models.DecimalField(max_digits=6, decimal_places=2)
+    color = models.CharField(max_length=100)
 
     def __str__(self):
         return f'Vehicle Type: {self.type}'

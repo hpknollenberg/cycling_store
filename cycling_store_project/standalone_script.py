@@ -50,14 +50,14 @@ def delete_customer(): # This function allows the user to delete a customer.
 # VEHICLE
 
 def create_vehicle(): # This function grabs an input of name and stock and assigns them to a new vehicle.
-    vehicle = Vehicle(type=input("Type: "), number_in_stock=input("Stock: "))
+    vehicle = Vehicle(type=input("Type: "), number_in_stock=input("Stock: "), color=input("Color: "), price=input("Price: "))
     vehicle.save()
     return menu_func()
 
 def read_vehicles(): # This function lists each vehicle type and stock.
     vehicles = Vehicle.objects.all()
     for vehicle in vehicles:
-        print (vehicle, "Stock:", vehicle.number_in_stock)
+        print (vehicle, "Stock:", vehicle.number_in_stock, "Color:", vehicle.color, "Price:", vehicle.price)
     return menu_func()
 
 def update_vehicle(): # This function allows the user to change the stock number of each vehicle.

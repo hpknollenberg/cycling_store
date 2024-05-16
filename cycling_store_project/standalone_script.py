@@ -77,6 +77,7 @@ def delete_vehicle():
     return menu_func()
 
 
+
 # Customer Order
 
 def create_customer_order():

@@ -17,18 +17,18 @@ from cycling_store_app.models import *
 
 # CUSTOMER
 
-def create_customer():
+def create_customer(): # This function grabs an input and assigns it to the customer name.
     customer = Customer(name=input("Customer Name: "))
     customer.save()
     return menu_func()
     
-def read_customers():
+def read_customers(): # This function lists each of the customers.
     customers = Customer.objects.all()
     for customer in customers:
         print(customer)
     return menu_func()
 
-def update_customer():
+def update_customer(): # This function allows the user to change a customer's name.
     try:
         customer = Customer.objects.filter(name=input("Customer Name To Edit: ")).first()
         customer.name = input("Change Customer Name To: ")
@@ -38,7 +38,7 @@ def update_customer():
         print("Customer Does Not Exist.")
     return menu_func()
 
-def delete_customer():
+def delete_customer(): # This function allows the user to delete a customer.
     try:
         Customer.objects.filter(name=input("Customer To Delete: ")).first().delete()
     except:
@@ -49,18 +49,18 @@ def delete_customer():
 
 # VEHICLE
 
-def create_vehicle():
+def create_vehicle(): # This function grabs an input of name and stock and assigns them to a new vehicle.
     vehicle = Vehicle(type=input("Type: "), number_in_stock=input("Stock: "))
     vehicle.save()
     return menu_func()
 
-def read_vehicles():
+def read_vehicles(): # This function lists each vehicle type and stock.
     vehicles = Vehicle.objects.all()
     for vehicle in vehicles:
         print (vehicle, "Stock:", vehicle.number_in_stock)
     return menu_func()
 
-def update_vehicle():
+def update_vehicle(): # This function allows the user to change the stock number of each vehicle.
     try:
         vehicle = Vehicle.objects.filter(type=input("Vehicle Type To Edit: ")).first()
         vehicle.number_in_stock = int(input("Change Stock To: "))
@@ -69,7 +69,7 @@ def update_vehicle():
         print("Vehicle Does Not Exist.")
     return menu_func()
 
-def delete_vehicle():
+def delete_vehicle(): # This function allows the user to delete a vehicle.
     try:
         Vehicle.objects.filter(type=input("Vehicle To Delete: ")).first().delete()
     except:
@@ -80,8 +80,8 @@ def delete_vehicle():
 
 # Customer Order
 
-def create_customer_order():
-    
+def create_customer_order(): # This function grabs inputs of vehicle, date, and customer name in order to create an order. It also subtracts from the corresponding vehicle's stock.
+
     vehicle = Vehicle.objects.get(type=input("Vehicle Type: "))
     
     if (vehicle.number_in_stock > 0):
@@ -103,13 +103,13 @@ def create_customer_order():
         print (f'{vehicle.type} Is Out Of Stock.')
     return menu_func()
 
-def read_customer_orders():
+def read_customer_orders(): # This function lists each order.
     customer_orders = CustomerOrder.objects.all()
     for customer_order in customer_orders:
         print(f'{customer_order}')
     return menu_func()
 
-def update_customer_order():
+def update_customer_order(): # This function allows the user to change an order's paid status.
     try:
         customer_order = CustomerOrder.objects.filter(created_date=input("Date Of Order To Update: "), customer=Customer.objects.get(name=input("Customer Of Order To Update: "))).first()
         paid_input = input("Change Paid To: ")
@@ -123,7 +123,7 @@ def update_customer_order():
         print("Order Does Not Exist.")
     return menu_func()
 
-def delete_customer_order():
+def delete_customer_order(): # This function allows the user to delete an order. It also adds to the corresponding vehicle's stock.
     try:
         delete_date = input("Date Of Order To Delete: ")
         delete_customer = input("Customer Of Order To Delete: ")
@@ -145,13 +145,7 @@ def menu_func():
     
     firstOptionSelect = input("***** \n1:Customer Info \n2:Vehicle Info \n3:Order Info \n4:Quit \n***** \n")
 
-    
 
-    
-
-    
-    
-    
     if firstOptionSelect == "1":
         optionSelectCustomer = input("***** \n1:Create New Customer \n2:List Customers \n3:Edit Customer \n4:Delete Customer \n5:Quit \n***** \n")
 

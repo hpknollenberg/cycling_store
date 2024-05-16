@@ -60,16 +60,25 @@ def update_vehicle():
 # Customer Order
 
 def create_customer_order():
-    customer_order = CustomerOrder(created_date=input("Order Date (YYYY-MM-DD): "), paid=False)
-    customer_order.customer = Customer.objects.get(name=input("Customer Name: "))
-    customer_order.save()
-
-    vehicle = Vehicle.objects.get(type=input("Vehicle Type: "))
-    customer_order.order.add(vehicle)
-    customer_order.save()
     
-    vehicle.number_in_stock = vehicle.number_in_stock - 1
-    vehicle.save()
+    vehicle = Vehicle.objects.get(type=input("Vehicle Type: "))
+    
+    if (vehicle.number_in_stock > 0):
+        customer_order = CustomerOrder(created_date=input("Order Date (YYYY-MM-DD): "), paid=False)
+        try:
+            customer_name = name=input("Customer Name: ")
+            customer_order.customer = Customer.objects.get(customer_name)
+            customer_order.save()
+
+            customer_order.order.add(vehicle)
+            customer_order.save()
+            
+            vehicle.number_in_stock = vehicle.number_in_stock - 1
+            vehicle.save()
+        except:
+            print(f'Unable to Locate {customer_name} as a Customer.')
+    else:
+        print (f'{vehicle.type} is out of stock.')
 
 def read_customer_orders():
     customer_orders = CustomerOrder.objects.all()
@@ -77,8 +86,11 @@ def read_customer_orders():
         print(f'{customer_order}')
 
 def update_customer_order():
-    customer_order = CustomerOrder.objects.filter(created_date=input("Date Of Order To Update: "), customer=Customer.objects.get(name=input("Customer Of Order To Update: "))).first()
-    customer_order.paid = input("Change Paid To: ")
+    try:
+        customer_order = CustomerOrder.objects.filter(created_date=input("Date Of Order To Update: "), customer=Customer.objects.get(name=input("Customer Of Order To Update: "))).first()
+        customer_order.paid = input("Change Paid To: ")
+    except: 
+        print("Order does not exist.")
 
 def delete_customer_order():
     delete_date = input("Date Of Order To Delete: ")
@@ -95,34 +107,24 @@ def delete_customer_order():
     
     
 
+def menu_func():
+    optionSelect = input("1:Create New Customer \n2:Create Order \n3:Cancel Order \n4:Edit Order \n5:Inventory \n6:Order More Vehicles \n7:Quit \n")
+    
+    if optionSelect == "1":
+        create_customer()
+    if optionSelect == "2":
+        create_customer_order()
+    if optionSelect == "3":
+        delete_customer_order()
+    if optionSelect == "4":
+        update_customer_order()
+    if optionSelect == "5":
+        read_vehicles()
+    if optionSelect == "6":
+        update_vehicle()
+    if optionSelect == "7":
+        pass
+    else:
+        print("Please choose 1-6.")
 
-# create_vehicle()
-# read_vehicles()
-
-
-# create_customer()
-# read_customers()
-
-# create_customer_order()
-# read_customer_orders()
-# delete_customer_order()
-
-# read_vehicles()
-# delete_vehicle()
-
-optionSelect = input("1:Create New Customer \n2:Create Order \n3:Cancel Order \n4:Edit Order \n5:Inventory \n6:Order More Vehicles \n")
-
-if optionSelect == "1":
-    create_customer()
-if optionSelect == "2":
-    create_customer_order()
-if optionSelect == "3":
-    delete_customer_order()
-if optionSelect == "4":
-    update_customer_order()
-if optionSelect == "5":
-    read_vehicles()
-if optionSelect == "6":
-    update_vehicle()
-else:
-    print("Please choose 1-6.")
+menu_func()

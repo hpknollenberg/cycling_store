@@ -142,38 +142,69 @@ def delete_customer_order():
     
 
 def menu_func():
-    optionSelect = input("***** \n1:Create New Customer \n2:List Customers \n3:Edit Customer \n4:Delete Customer \n5:Create Order \n6:List Orders \n7:Update Order \n8:Delete Order \n9:Add Vehicle \n10:Inventory of Vehicles \n11:Update Vehicle \n12:Delete Vehicle \n13:Quit \n***** \n")
     
-    if optionSelect == "1":
-        return create_customer()
-    if optionSelect == "2":
-        return read_customers()
-    if optionSelect == "3":
-        return update_customer()
-    if optionSelect == "4":
-        return delete_customer()
-    if optionSelect == "5":
-        return create_customer_order()
-    if optionSelect == "6":
-        return read_customer_orders()
-    if optionSelect == "7":
-        return update_customer_order()
-    if optionSelect == "8":
-        return delete_customer_order()
-    if optionSelect == "9":
-        return create_vehicle()
-    if optionSelect == "10":
-        return read_vehicles()
-    if optionSelect == "11":
-        return update_vehicle()
-    if optionSelect == "12":
-        return delete_vehicle()
-    if optionSelect == "13":
+    firstOptionSelect = input("***** \n1:Customer Info \n2:Vehicle Info \n3:Order Info \n4:Quit \n***** \n")
+
+    
+
+    
+
+    
+    
+    
+    if firstOptionSelect == "1":
+        optionSelectCustomer = input("***** \n1:Create New Customer \n2:List Customers \n3:Edit Customer \n4:Delete Customer \n5:Quit \n***** \n")
+
+        if optionSelectCustomer == "1":
+            return create_customer()
+        elif optionSelectCustomer == "2":
+            return read_customers()
+        elif optionSelectCustomer == "3":
+            return update_customer()
+        elif optionSelectCustomer == "4":
+            return delete_customer()
+        elif optionSelectCustomer == "5":
+            pass
+        else:
+            print("Please Enter A Valid Input.")
+
+    elif firstOptionSelect == "2":
+        optionSelectVehicle = input("***** \n1:Add Vehicle \n2:Inventory of Vehicles \n3:Update Vehicle \n4:Delete Vehicle \n5:Quit \n***** \n")
+
+        if optionSelectVehicle == "1":
+            return create_vehicle()
+        elif optionSelectVehicle == "2":
+            return read_vehicles()
+        elif optionSelectVehicle == "3":
+            return update_vehicle()
+        elif optionSelectVehicle == "4":
+            return delete_vehicle()
+        elif optionSelectVehicle == "5":
+            pass
+        else:
+            print("Please Enter A Valid Input.")
+
+    elif firstOptionSelect == "3":
+        optionSelectOrder = input("***** \n1:Create Order \n2:List Orders \n3:Update Order \n4:Delete Order \n5:Quit \n***** \n")
+
+        if optionSelectOrder == "1":
+            return create_customer_order()
+        elif optionSelectOrder == "2":
+            return read_customer_orders()
+        elif optionSelectOrder == "3":
+            return update_customer_order()
+        elif optionSelectOrder == "4":
+            return delete_customer_order()
+        elif optionSelectOrder == "5":
+            pass
+        else:
+            print("Please Enter A Valid Input.")
+    
+    elif firstOptionSelect == "4":
         pass
+
     else:
-        print("Please Enter 1-13.")
+        print("Please Enter A Valid Input.")
 
 menu_func()
 
-
-This is the newfunction branch.

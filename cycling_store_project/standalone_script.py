@@ -111,7 +111,7 @@ def read_customer_orders(): # This function lists each order.
 
 def update_customer_order(): # This function allows the user to change an order's paid status.
     try:
-        customer_order = CustomerOrder.objects.filter(created_date=input("Date Of Order To Update: "), customer=Customer.objects.get(name=input("Customer Of Order To Update: "))).first()
+        customer_order = CustomerOrder.objects.filter(id=input("Order ID: ")).first()
         paid_input = input("Change Paid To: ")
         if paid_input == "True":
             customer_order.paid = True
@@ -119,27 +119,34 @@ def update_customer_order(): # This function allows the user to change an order'
         elif paid_input == "False":
             customer_order.paid = False
             customer_order.save()
+        else:
+            print("Invalid Input.")
     except: 
         print("Order Does Not Exist.")
     return menu_func()
 
 def delete_customer_order(): # This function allows the user to delete an order. It also adds to the corresponding vehicle's stock.
     try:
-        delete_date = input("Date Of Order To Delete: ")
-        delete_customer = input("Customer Of Order To Delete: ")
-        customer_order = CustomerOrder.objects.filter(created_date=delete_date, customer=Customer.objects.get(name=delete_customer)).first()
+        customer_order = CustomerOrder.objects.filter(id=input("Order ID: ")).first()
         
         vehicle = Vehicle.objects.get(type=customer_order.order.first().type)
         vehicle.number_in_stock = vehicle.number_in_stock + 1
         vehicle.save()
         
-        CustomerOrder.objects.filter(created_date=delete_date, customer=Customer.objects.get(name=delete_customer)).first().delete()
+        CustomerOrder.objects.filter(id=customer_order.id).first().delete()
     except:
         print("Order Does Not Exist.")
     return menu_func()
 
+def read_specific_customer_orders():
+    customer_orders = CustomerOrder.objects.filter(customer=Customer.objects.get(name=input("Customer Name: "))).all()
+    for customer_order in customer_orders:
+        print(f'{customer_order}')
+    return menu_func()
+
+
     
-    
+# MENU
 
 def menu_func():
     
@@ -147,7 +154,7 @@ def menu_func():
 
 
     if firstOptionSelect == "1":
-        optionSelectCustomer = input("***** \n1:Create New Customer \n2:List Customers \n3:Edit Customer \n4:Delete Customer \n5:Quit \n***** \n")
+        optionSelectCustomer = input("***** \n1:Create New Customer \n2:List Customers \n3:Edit Customer \n4:Delete Customer \n5:Customer Order History \n6:Quit \n***** \n")
 
         if optionSelectCustomer == "1":
             return create_customer()
@@ -158,6 +165,8 @@ def menu_func():
         elif optionSelectCustomer == "4":
             return delete_customer()
         elif optionSelectCustomer == "5":
+            return read_specific_customer_orders()
+        elif optionSelectCustomer == "6":
             pass
         else:
             print("Please Enter A Valid Input.")
@@ -202,3 +211,13 @@ def menu_func():
 
 menu_func()
 
+print("*********************************************")
+print("*********************************************")
+print("*******__***************| |******************")
+print("***** /  '  __   __   __| |__        __ *****")
+print("*****|  _  |  | |  | |  | |  | \\  / /__|*****")
+print("***** \\__| |__| |__| |__| |__|  \\/  \\__ *****")
+print("*****                           /       *****")
+print("*******************************/*************")
+print("*********************************************")
+print("*********************************************")

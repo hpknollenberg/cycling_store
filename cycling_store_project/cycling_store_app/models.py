@@ -22,4 +22,4 @@ class CustomerOrder(models.Model):
     paid = models.BooleanField()
 
     def __str__(self):
-        return f'{self.customer}, {self.order.first()}, {self.created_date}, Paid: {self.paid}'
+        return f'{self.id}, {self.customer}, {self.order.first()}, {self.created_date}, Paid: {self.paid}'

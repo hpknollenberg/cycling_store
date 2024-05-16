@@ -86,21 +86,23 @@ def create_customer_order(): # This function grabs inputs of vehicle, date, and 
     
     if (vehicle.number_in_stock > 0):
         customer_order = CustomerOrder(created_date=input("Order Date (YYYY-MM-DD): "), paid=False)
+    try:
+        customer_name = input("Customer Name: ")
+        customer_order.customer = Customer.objects.get(name=customer_name)
         try:
-            customer_name = input("Customer Name: ")
-            customer_order.customer = Customer.objects.get(name=customer_name)
+            vehicle = Vehicle.objects.get(type=input("Vehicle Type: "), color=input("Color: "))
             customer_order.save()
-
             customer_order.order.add(vehicle)
             customer_order.save()
-            
-            vehicle.number_in_stock = vehicle.number_in_stock - 1
-            vehicle.save()
+            try:
+                vehicle.number_in_stock = vehicle.number_in_stock - 1
+                vehicle.save()  
+            except:
+                print (f'{vehicle.type} Is Out Of Stock.')
         except:
-            print(f'Unable To Locate {customer_name} As A Customer.')
-            
-    else:
-        print (f'{vehicle.type} Is Out Of Stock.')
+            print("Unable To Locate Vehicle In System.")    
+    except:
+        print(f'Unable To Locate {customer_name} As A Customer.')
     return menu_func()
 
 def read_customer_orders(): # This function lists each order.

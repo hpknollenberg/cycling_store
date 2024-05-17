@@ -9,7 +9,7 @@ class Vehicle(models.Model):
     color = models.CharField(max_length=100, null=True)
 
     def __str__(self):
-        return f'Vehicle Type: {self.type}'
+        return f'Vehicle Type: {self.type}, Color: {self.color}'
 
 class Customer(models.Model):
     name = models.CharField(max_length = 100)

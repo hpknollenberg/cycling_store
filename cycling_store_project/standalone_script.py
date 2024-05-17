@@ -50,10 +50,12 @@ def delete_customer(): # This function allows the user to delete a customer.
 # VEHICLE
 
 def create_vehicle(): # This function grabs an input of name and stock and assigns them to a new vehicle.
-    vehicle = Vehicle(type=input("Type: "), number_in_stock=input("Stock: "), color=input("Color: "), price=input("Price: "))
-    vehicle.save()
+    try:
+        vehicle = Vehicle(type=input("Type: "), number_in_stock=input("Stock: "), color=input("Color: "), price=input("Price: "))
+        vehicle.save()
+    except:
+        print("Invalid Input.")
     return menu_func()
-
 def read_vehicles(): # This function lists each vehicle type and stock.
     vehicles = Vehicle.objects.all()
     for vehicle in vehicles:
@@ -62,7 +64,7 @@ def read_vehicles(): # This function lists each vehicle type and stock.
 
 def update_vehicle(): # This function allows the user to change the stock number of each vehicle.
     try:
-        vehicle = Vehicle.objects.filter(type=input("Vehicle Type To Edit: ")).first()
+        vehicle = Vehicle.objects.filter(type=input("Vehicle Type To Edit: "), color=input("Color: ")).first()
         vehicle.number_in_stock = int(input("Change Stock To: "))
         vehicle.save()
     except:
@@ -71,7 +73,7 @@ def update_vehicle(): # This function allows the user to change the stock number
 
 def delete_vehicle(): # This function allows the user to delete a vehicle.
     try:
-        Vehicle.objects.filter(type=input("Vehicle To Delete: ")).first().delete()
+        Vehicle.objects.filter(type=input("Vehicle To Delete: "), color=input("Color: ")).first().delete()
     except:
         print("Vehicle Does Not Exist In Inventory.")
     return menu_func()
@@ -128,9 +130,12 @@ def delete_customer_order(): # This function allows the user to delete an order.
     try:
         customer_order = CustomerOrder.objects.filter(id=input("Order ID: ")).first()
         
-        vehicle = Vehicle.objects.get(type=customer_order.order.first().type)
-        vehicle.number_in_stock = vehicle.number_in_stock + 1
-        vehicle.save()
+        try:
+            vehicle = Vehicle.objects.get(type=customer_order.order.first().type)
+            vehicle.number_in_stock = vehicle.number_in_stock + 1
+            vehicle.save()
+        except:
+            pass
         
         CustomerOrder.objects.filter(id=customer_order.id).first().delete()
     except:
@@ -138,9 +143,12 @@ def delete_customer_order(): # This function allows the user to delete an order.
     return menu_func()
 
 def read_specific_customer_orders():
-    customer_orders = CustomerOrder.objects.filter(customer=Customer.objects.get(name=input("Customer Name: "))).all()
-    for customer_order in customer_orders:
-        print(f'{customer_order}')
+    try:
+        customer_orders = CustomerOrder.objects.filter(customer=Customer.objects.get(name=input("Customer Name: "))).all()
+        for customer_order in customer_orders:
+            print(f'{customer_order}')
+    except:
+        print ("Customer Does Not Exist.")
     return menu_func()
 
 
@@ -169,6 +177,7 @@ def menu_func():
             pass
         else:
             print("Please Enter A Valid Input.")
+            return menu_func()
 
     elif firstOptionSelect == "2":
         optionSelectVehicle = input("***** \n1:Add Vehicle \n2:Inventory of Vehicles \n3:Update Vehicle \n4:Delete Vehicle \n5:Quit \n***** \n")
@@ -185,6 +194,7 @@ def menu_func():
             pass
         else:
             print("Please Enter A Valid Input.")
+            return menu_func()
 
     elif firstOptionSelect == "3":
         optionSelectOrder = input("***** \n1:Create Order \n2:List Orders \n3:Update Order \n4:Delete Order \n5:Quit \n***** \n")
@@ -201,12 +211,14 @@ def menu_func():
             pass
         else:
             print("Please Enter A Valid Input.")
+            return menu_func()
     
     elif firstOptionSelect == "4":
         pass
 
     else:
         print("Please Enter A Valid Input.")
+        return menu_func()
 
 menu_func()
 
